@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { MongoClient } from "mongodb";
-const uri = process.env.MONGODB;
+const url = process.env.MONGODB;
 
-const client = new MongoClient(uri);
+const client = new MongoClient(url);
 
 let instance = null;
 
@@ -11,7 +11,7 @@ export default async function getConnection() {
     try {
       instance = await client.connect();
     } catch (error) {
-      console.log(err.message);
+      console.log("error de conexion:", err.message);
     }
   }
   return instance;
