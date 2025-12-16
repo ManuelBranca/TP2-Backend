@@ -80,6 +80,7 @@ export async function updateProduct(id, updatedProduct) {
   if (typeof updatedProduct.price === "number" && updatedProduct.price > 0)
     fieldsToUpdate.price = updatedProduct.price;
   if (updatedProduct.image) fieldsToUpdate.image = updatedProduct.image;
+  if (updatedProduct.stock) fieldsToUpdate.stock = updatedProduct.stock;
 
   const result = await clientMongo
     .db(DATABASE)

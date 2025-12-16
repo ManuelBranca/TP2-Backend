@@ -95,8 +95,8 @@ export async function updateUser(id, updatedUser) {
   if (updatedUser.email) fieldsToUpdate.email = updatedUser.email;
   if (updatedUser.password)
     fieldsToUpdate.password = await bcryptjs.hash(updatedUser.password, 10);
-  if (updatedUser.name) fieldsToUpdate.name = updatedUser.name;
-  if (updatedUser.lastname) fieldsToUpdate.lastname = updatedUser.lastname;
+  if (updatedUser.nombre) fieldsToUpdate.nombre = updatedUser.nombre;
+  if (updatedUser.apellido) fieldsToUpdate.apellido = updatedUser.apellido;
   if (updatedUser.username) fieldsToUpdate.username = updatedUser.username;
 
   const result = await clientMongo
@@ -112,14 +112,14 @@ export async function updateUser(id, updatedUser) {
 }
 
 //   //TODO purchase, iniciar sesion, cerrar sesion
-// export async function purchase(id,itemsProductos){
+//    export async function purchase(id,itemsProductos){
 //   const bdd = getConnection()
 //   const compras = await bdd.db(DATABASE).collection(USERS).findOne({_id: new ObjectId(id)})
 //   //TODO agregar Items productos en el array de compras
 //   //TODO actualizar stock
 // }
 
-export async function purchase(id, itemsProductos) {
+export async function purchase(id, itemsProducts) {
   const clientMongo = await getConnection();
 
   // Verificar existencia del usuario
@@ -137,7 +137,7 @@ export async function purchase(id, itemsProductos) {
   let total = 0;
 
   // Verificar y actualizar stock de productos
-  for (const item of itemsProductos) {
+  for (const item of itemsProducts) {
     const product = await productsCollection.findOne({
       _id: new ObjectId(item.productId),
     });
@@ -166,7 +166,7 @@ export async function purchase(id, itemsProductos) {
   }
 
   // Crear objeto de venta
-  const sale = {
+  const SALES = {
     userId: id,
     products: productsPurchased,
     total,
@@ -174,7 +174,7 @@ export async function purchase(id, itemsProductos) {
   };
 
   // Llamar a addSale para registrar la venta en SALES y obtener el ID de la venta
-  const saleResult = await addSale(sale);
+  const saleResult = await addSale(SALES);
 
   // Actualizar las compras en el usuario con referencia al ID de la venta
   await clientMongo
